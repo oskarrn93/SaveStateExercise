@@ -6,14 +6,20 @@ import android.view.View;
 import android.widget.TextView;
 
 public class StateActivity extends AppCompatActivity {
-
+    private final String STATE_DIE = "die";
     Die die;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state);
-        die=new Die();
+
+        if(savedInstanceState != null) {
+            die = savedInstanceState.getParcelable(STATE_DIE);
+        } else {
+            die=new Die();
+        }
+
         setValueText();
     }
 
@@ -25,5 +31,11 @@ public class StateActivity extends AppCompatActivity {
     public void rollDice(View src){
         die.roll();
         setValueText();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelable(STATE_DIE, die);
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
